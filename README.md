@@ -21,5 +21,5 @@
 
 - `clouddrive.proto`：CloudDrive2 官方 gRPC API 定义
 - `CloudDrive2 gRPC API 开发者指南.pdf`：官方 API 说明文档（存档）
-- `src/qbt_cd2_uploader/`：Python 实现（gRPC client + worker）
+- `src/auto_upload_to_115open/`：Python 实现（gRPC client + worker）
 - `scripts/`：qBittorrent 触发脚本与 worker wrapper
