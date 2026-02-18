@@ -2,6 +2,11 @@
 
 将 qBittorrent-nox 的“下载完成后内容路径”事件转换为可审计任务，按目录白名单触发并延迟执行，然后使用 **CloudDrive2 官方 gRPC Remote Upload Protocol** 上传到 115 网盘目录 `/115open`。
 
+## 快速入口
+
+- Debian 13 最新部署手册：`docs/DEPLOY_DEBIAN13.md`
+- 一键健康检查脚本：`scripts/health_check.sh`
+
 ## 关键约束落实
 
 - 仅使用 `clouddrive.proto` 定义的官方 gRPC API。
@@ -21,7 +26,10 @@
 ├── scripts
 │   ├── auto_upload_enqueue.sh
 │   ├── auto_upload_worker.sh
-│   └── generate_stubs.sh
+│   ├── generate_stubs.sh
+│   └── health_check.sh
+├── docs
+│   └── DEPLOY_DEBIAN13.md
 ├── src/auto_upload_to_115open
 │   ├── config.py
 │   ├── enqueue.py
