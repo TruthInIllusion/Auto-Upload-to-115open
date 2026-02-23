@@ -232,8 +232,8 @@ class CloudDriveRemoteUploader:
             return
 
         parts = [p for p in normalized.split("/") if p]
-        current = "/" + parts[0]
-        for part in parts[1:]:
+        current = "/"
+        for part in parts:
             req = clouddrive_pb2.CreateFolderRequest(parentPath=current, folderName=part)
             result = self._stub.CreateFolder(req, metadata=self._metadata)
 

@@ -10,6 +10,8 @@ from auto_upload_to_115open.models import TaskState
 from auto_upload_to_115open.scheduler import SchedulingError, schedule_worker
 from auto_upload_to_115open.task_store import TaskStore
 
+REMOTE_UPLOAD_GLOBAL_LOCK = "remote_upload_channel_global"
+
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run one queued upload task")
@@ -64,7 +66,16 @@ def main(argv: Optional[List[str]] = None) -> int:
         device_id = store.get_or_create_device_id()
         uploader = CloudDriveRemoteUploader(settings=settings, device_id=device_id)
         try:
-            file_count = uploader.upload_path(task.source_path, task.remote_target_path)
+            print(
+                f"waiting-upload-slot: task_id={task.task_id} lock={REMOTE_UPLOAD_GLOBAL_LOCK}",
+                file=sys.stderr,
+            )
+            with store.task_lock(REMOTE_UPLOAD_GLOBAL_LOCK):
+                print(
+                    f"upload-slot-acquired: task_id={task.task_id} device_id={device_id}",
+                    file=sys.stderr,
+                )
+                file_count = uploader.upload_path(task.source_path, task.remote_target_path)
         finally:
             uploader.close()
 
